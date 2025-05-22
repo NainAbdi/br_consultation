@@ -1,8 +1,28 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import UserTypeOverlay from '@/components/overlays/UserTypeOverlay';
+import NewUserOverlay from '@/components/overlays/NewUserOverlay';
 
 export default function Home() {
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [showNewUserOverlay, setShowNewUserOverlay] = useState(false);
+  const [userType, setUserType] = useState<'new' | 'existing' | null>(null);
+
+  const handleUserTypeSelect = (type: 'new' | 'existing') => {
+    setUserType(type);
+    if (type === 'new') {
+      setShowNewUserOverlay(true);
+    } else {
+      setShowOverlay(false);
+    }
+  };
+
   return (
     <div className="min-h-screen p-8">
+      {showOverlay && <UserTypeOverlay onSelect={handleUserTypeSelect} />}
+      {showNewUserOverlay && <NewUserOverlay />}
+      
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-8">Initial Consultation</h1>
         
